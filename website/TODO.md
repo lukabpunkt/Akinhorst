@@ -9,7 +9,7 @@ Alle Stellen sind im Code mit `TODO(INHABER)` markiert. Die meisten Inhalte werd
 2. **Konditionen:** Mietdauer der Pakete (Tag / Wochenende?), Kaution, Anzahlung, Storno.
    → `site.ts` (`packages`, `packagesNote`, `faq`)
 3. **Preise bestätigen:** Selbstaufbau 250 €, Rundum-Sorglos 450 €, Event Design „auf Anfrage“. Label „Beliebt“ am Rundum-Sorglos-Paket ok?
-4. **Liefergebiet:** Liefer-Radius und Lieferkosten (km-Pauschale?). Welches „Lohne“ ist gemeint? (Karte zeigt aktuell Lohne (Oldenburg).) Ortsliste bestätigen.
+4. **Liefergebiet:** Liefer-Radius und Lieferkosten (km-Pauschale?). „Lohne“ = Lohne (Wietmarschen) (geklärt 19.10., Karte angepasst). Ortsliste bestätigen.
    → `site.ts` (`areas`), `components/sections/Area.astro` (Koordinaten)
 5. **Leistungsumfang:** Was ist inklusive (Garnituren, Beleuchtung, Boden, Heizung)? Wird Deko vermietet? Was gehört konkret zum Paket „Event Design“ (aktuell: Dekorationskonzept, Tischdeko & Blumen, Lichterketten, Traubogen)?
 6. **Erreichbarkeit:** Ist 0155 10626727 auf WhatsApp erreichbar? Ist „Antwort innerhalb von 24 Stunden“ realistisch?

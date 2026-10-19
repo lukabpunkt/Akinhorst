@@ -58,8 +58,8 @@ export const site = {
 
   occasions: ["Hochzeit", "Geburtstag", "Firmenfeier", "Vereinsfest", "Gartenparty", "Taufe & Jubiläum"],
 
-  // TODO(INHABER): Liste bestätigen, welches „Lohne“ ist gemeint?
-  areas: ["Rahden", "Espelkamp", "Stemwede", "Diepenau", "Rehden", "Wagenfeld", "Lohne", "Preußisch Oldendorf"],
+  // TODO(INHABER): Liste bestätigen. „Lohne“ = Lohne (Wietmarschen), Grafschaft Bentheim (Inhaber-Info 19.10.)
+  areas: ["Rahden", "Espelkamp", "Stemwede", "Diepenau", "Rehden", "Wagenfeld", "Lohne (Wietmarschen)", "Preußisch Oldendorf"],
 
   steps: [
     { title: "Anfragen", text: "Wunschtermin, Ort und Gästezahl über das Formular senden." },

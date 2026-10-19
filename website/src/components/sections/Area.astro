@@ -3,7 +3,6 @@ import Eyebrow from "../Eyebrow.astro";
 import { site } from "../../data/site";
 
 // Ungefähre Koordinaten für die stilisierte Karte (keine echte Karte, kein externer Dienst)
-// TODO(INHABER): welches „Lohne“? Hier: Lohne (Oldenburg)
 const coords: Record<string, [number, number]> = {
   Rahden: [52.433, 8.613],
   Espelkamp: [52.377, 8.622],
@@ -11,7 +10,7 @@ const coords: Record<string, [number, number]> = {
   Diepenau: [52.42, 8.73],
   Rehden: [52.61, 8.48],
   Wagenfeld: [52.55, 8.583],
-  Lohne: [52.666, 8.238],
+  "Lohne (Wietmarschen)": [52.508, 7.208],
   "Preußisch Oldendorf": [52.3, 8.497],
 };
 const project = ([lat, lon]: [number, number]) => ({
@@ -19,15 +18,29 @@ const project = ([lat, lon]: [number, number]) => ({
   y: 50 + (52.7 - lat) * 111 * 11.5,
 });
 const center = project(coords.Rahden);
+// Weit entfernte Orte (z. B. Lohne/Wietmarschen, ~95 km westlich) in echter Himmelsrichtung an den Kartenrand setzen
+const EDGE = 320;
+const place = (name: string) => {
+  const p = project(coords[name]);
+  const dx = p.x - center.x;
+  const dy = p.y - center.y;
+  const d = Math.hypot(dx, dy);
+  return d > EDGE ? { x: center.x + (dx / d) * EDGE, y: center.y + (dy / d) * EDGE, far: true } : { ...p, far: false };
+};
 // Beschriftung je Ort so platzieren, dass nichts den Rahden-Marker überdeckt oder aus dem Bild läuft
-const labelSide: Record<string, "left" | "right" | "below"> = { Stemwede: "left", Diepenau: "below", "Preußisch Oldendorf": "below" };
+const labelSide: Record<string, "left" | "right" | "below" | "above"> = { Stemwede: "left", Diepenau: "below", "Preußisch Oldendorf": "below" };
 const places = site.areas
   .filter((a) => a !== "Rahden" && coords[a])
-  .map((name) => ({ name, side: labelSide[name] ?? (project(coords[name]).x < 520 ? "right" : "left"), ...project(coords[name]) }));
+  .map((name) => {
+    const p = place(name);
+    return { name, ...p, side: p.far ? "above" : labelSide[name] ?? (p.x < 520 ? "right" : "left") };
+  });
 const label = (p: { x: number; y: number; side: string }) =>
-  p.side === "below"
-    ? { x: p.side === "below" && p.x > 480 ? p.x + 8 : p.x, y: p.y + 30, anchor: p.x > 480 ? "end" : "middle" }
-    : { x: p.x + (p.side === "right" ? 12 : -12), y: p.y + 6, anchor: p.side === "right" ? "start" : "end" };
+  p.side === "above"
+    ? { x: p.x - 8, y: p.y - 18, anchor: "start" }
+    : p.side === "below"
+      ? { x: p.x > 480 ? p.x + 8 : p.x, y: p.y + 30, anchor: p.x > 480 ? "end" : "middle" }
+      : { x: p.x + (p.side === "right" ? 12 : -12), y: p.y + 6, anchor: p.side === "right" ? "start" : "end" };
 ---
 
 <section class="section area" id="liefergebiet" aria-labelledby="area-title" data-loop>
