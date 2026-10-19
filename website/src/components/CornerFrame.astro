@@ -1,0 +1,21 @@
+---
+/** Offene Rahmenecken (Logo-Motiv) um beliebigen Inhalt. Linien zeichnen sich per CSS, sobald .is-drawn gesetzt ist. */
+interface Props {
+  color?: string;
+  animated?: boolean;
+  corners?: ("tl" | "bl" | "tr" | "br")[];
+  length?: string;
+  offset?: string;
+  class?: string;
+  [key: string]: unknown;
+}
+const { color, animated = true, corners = ["tl", "bl"], length, offset, class: cls = "", ...rest } = Astro.props;
+const style = [color && `--cf-color:${color}`, length && `--cf-len:${length};--cf-len-y:${length}`, offset && `--cf-off:${offset}`]
+  .filter(Boolean)
+  .join(";");
+---
+
+<div class:list={["cframe", cls]} style={style || undefined} data-frame-anim={animated ? "" : undefined} {...rest}>
+  <slot />
+  {corners.map((c) => <span class={`cframe__corner cframe__corner--${c}`} aria-hidden="true" />)}
+</div>

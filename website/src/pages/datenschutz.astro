@@ -1,0 +1,75 @@
+---
+import LegalLayout from "../layouts/LegalLayout.astro";
+import { site } from "../data/site";
+---
+
+<LegalLayout title="Datenschutz | Bakin & Horst Event Design" heading="Datenschutzerklärung" description="Datenschutzerklärung der Bakin & Horst Event Design GbR.">
+  <p class="notice"><strong>Hinweis:</strong> Diese Datenschutzerklärung ist eine Vorlage. <span class="todo">Bitte vor Veröffentlichung rechtlich prüfen lassen.</span></p>
+
+  <h2>1. Verantwortlicher</h2>
+  <p>
+    {site.name}<br />
+    vertreten durch {site.owners.join(" und ")}<br />
+    {site.address.street}, {site.address.zip} {site.address.city}<br />
+    Telefon: <a href={site.phone.href}>{site.phone.display}</a><br />
+    E-Mail: <a href={`mailto:${site.email}`}>{site.email}</a>
+  </p>
+
+  <h2>2. Allgemeines</h2>
+  <p>
+    Wir verarbeiten personenbezogene Daten nur, soweit dies zur Bereitstellung dieser Website und zur Bearbeitung eurer Anfragen erforderlich ist. Diese Website setzt <strong>keine Cookies</strong>, verwendet <strong>kein Tracking</strong> und <strong>keine Analyse-Tools</strong> und bindet keine Inhalte externer Anbieter (z. B. Karten, Videos oder Social-Media-Beiträge) ein.
+  </p>
+
+  <h2>3. Hosting</h2>
+  <p>
+    Diese Website wird bei Netlify, Inc., 512 2nd Street, Suite 200, San Francisco, CA 94107, USA gehostet. Beim Aufruf der Website verarbeitet Netlify technisch notwendige Daten (z. B. IP-Adresse, Datum und Uhrzeit des Abrufs, aufgerufene Seite, Browser-Informationen) in Server-Logfiles, um die Website auszuliefern und ihre Sicherheit zu gewährleisten. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer sicheren und zuverlässigen Bereitstellung).
+  </p>
+  <p>
+    Dabei kann eine Übermittlung in die USA erfolgen. Netlify ist unter dem EU-US Data Privacy Framework zertifiziert; zusätzlich haben wir mit Netlify einen Vertrag zur Auftragsverarbeitung inkl. Standardvertragsklauseln geschlossen. <span class="todo">TODO(INHABER): AV-Vertrag mit Netlify abschließen</span>
+  </p>
+
+  <h2>4. Anfrageformular</h2>
+  <p>
+    Wenn ihr uns über das Anfrageformular kontaktiert, verarbeiten wir eure Angaben (Name, E-Mail-Adresse, optional Telefonnummer, Wunschtermin, Ort der Feier, Anlass, Gästezahl, gewünschtes Paket und eure Nachricht), um eure Anfrage zu bearbeiten und euch ein Angebot zu machen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (vorvertragliche Maßnahmen) sowie Art. 6 Abs. 1 lit. a DSGVO (Einwilligung).
+  </p>
+  <p>
+    Die Formulardaten werden über den Dienst „Netlify Forms“ des Hosters Netlify verarbeitet und gespeichert und uns per E-Mail weitergeleitet. Wir löschen eure Daten, sobald sie für die Bearbeitung nicht mehr erforderlich sind und keine gesetzlichen Aufbewahrungspflichten bestehen.
+  </p>
+
+  <h2>5. Kontakt per E-Mail, Telefon oder WhatsApp</h2>
+  <p>
+    Wenn ihr uns per E-Mail oder Telefon kontaktiert, verarbeiten wir eure Angaben zur Bearbeitung der Anfrage (Art. 6 Abs. 1 lit. b bzw. f DSGVO).
+  </p>
+  <p>
+    Über den Link „WhatsApp“ werdet ihr zum Dienst WhatsApp der WhatsApp Ireland Ltd. weitergeleitet. Erst durch das Anklicken werden Daten an WhatsApp/Meta übertragen. Für die Datenverarbeitung durch WhatsApp gelten deren Datenschutzbestimmungen. Wenn ihr das nicht möchtet, kontaktiert uns bitte per Telefon, E-Mail oder Formular.
+  </p>
+
+  <h2>6. Instagram</h2>
+  <p>
+    Auf unserer Website verlinken wir lediglich auf unser Instagram-Profil. Es werden keine Inhalte von Instagram eingebunden. Erst wenn ihr dem Link folgt, gelten die Datenschutzbestimmungen der Meta Platforms Ireland Ltd.
+  </p>
+
+  <h2>7. Schriftarten</h2>
+  <p>
+    Die verwendeten Schriftarten (Cormorant Garamond, Montserrat) sind lokal auf unserem Server gespeichert. Beim Aufruf der Website wird keine Verbindung zu Servern von Google oder anderen Anbietern hergestellt.
+  </p>
+
+  <h2>8. Eure Rechte</h2>
+  <p>Ihr habt jederzeit das Recht auf:</p>
+  <ul>
+    <li>Auskunft über eure gespeicherten Daten (Art. 15 DSGVO)</li>
+    <li>Berichtigung unrichtiger Daten (Art. 16 DSGVO)</li>
+    <li>Löschung (Art. 17 DSGVO)</li>
+    <li>Einschränkung der Verarbeitung (Art. 18 DSGVO)</li>
+    <li>Datenübertragbarkeit (Art. 20 DSGVO)</li>
+    <li>Widerspruch gegen die Verarbeitung (Art. 21 DSGVO)</li>
+    <li>Widerruf einer erteilten Einwilligung mit Wirkung für die Zukunft (Art. 7 Abs. 3 DSGVO)</li>
+  </ul>
+
+  <h2>9. Beschwerderecht</h2>
+  <p>
+    Ihr habt das Recht, euch bei einer Datenschutz-Aufsichtsbehörde zu beschweren. Für uns zuständig ist die Landesbeauftragte für Datenschutz und Informationsfreiheit Nordrhein-Westfalen (LDI NRW), Kavalleriestraße 2–4, 40213 Düsseldorf.
+  </p>
+
+  <p><em>Stand: Oktober 2026</em></p>
+</LegalLayout>

@@ -1,0 +1,12 @@
+---
+interface Props {
+  text: string;
+  tone?: "dark" | "light";
+  align?: "center" | "left";
+  class?: string;
+  as?: "p" | "span";
+}
+const { text, tone = "dark", align = "center", class: cls = "", as: Tag = "p" } = Astro.props;
+---
+
+<Tag class:list={["eyebrow", { "eyebrow--light": tone === "light", "eyebrow--left": align === "left" }, cls]} data-anim="eyebrow">{text}</Tag>

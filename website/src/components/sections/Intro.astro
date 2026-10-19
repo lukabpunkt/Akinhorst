@@ -1,0 +1,79 @@
+---
+import Eyebrow from "../Eyebrow.astro";
+import { site } from "../../data/site";
+---
+
+<section class="section intro" id="ueber-uns" aria-labelledby="intro-title">
+  <div class="container intro__grid">
+    <div class="intro__text">
+      <Eyebrow text="Über uns" align="left" />
+      <h2 id="intro-title" data-anim="lines">Gegründet aus Liebe zu <em class="accent">schönen Momenten.</em></h2>
+      <!-- TODO(INHABER): Text freigeben -->
+      <p class="lead" data-anim="fade-up">
+        Wir sind Bakin &amp; Horst – ein junges Team aus Rahden. Wir glauben, dass die schönsten Feste dort entstehen, wo man sich wohlfühlt: im eigenen Garten, auf dem Hof oder auf der Lieblingswiese. Damit das Wetter euch keinen Strich durch die Rechnung macht, bringen wir den Raum mit – und auf Wunsch die passende Atmosphäre gleich dazu.
+      </p>
+    </div>
+    <figure class="intro__quote">
+      <span class="intro__divider" aria-hidden="true" data-anim="line-y"></span>
+      <blockquote><p data-anim="words">„Ihr feiert. Wir kümmern uns um den Rest.“</p></blockquote>
+      <figcaption data-anim="fade-up"><span class="label">{site.signature}</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .intro__grid {
+    display: grid;
+    gap: clamp(3rem, 6vw, 6rem);
+  }
+  .intro h2 {
+    margin: 0 0 2rem;
+    max-width: 14ch;
+  }
+  .intro .lead {
+    max-width: 36rem;
+    margin: 0;
+  }
+  .intro__quote {
+    position: relative;
+    margin: 0;
+    padding-left: 2rem;
+    align-self: end;
+  }
+  .intro__divider {
+    position: absolute;
+    left: 0;
+    top: 0.4rem;
+    bottom: 0.4rem;
+    width: 1px;
+    background: var(--gold);
+    transform-origin: top;
+  }
+  blockquote p {
+    margin: 0;
+  }
+  blockquote {
+    margin: 0 0 1.5rem;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(2rem, 2.6vw + 1rem, 3.4rem);
+    line-height: 1.12;
+    color: var(--ink);
+  }
+  figcaption .label {
+    color: var(--gold-deep);
+  }
+  @media (min-width: 1024px) {
+    .intro__grid {
+      grid-template-columns: repeat(12, 1fr);
+    }
+    .intro__text {
+      grid-column: 1 / span 6;
+    }
+    .intro__quote {
+      grid-column: 8 / span 5;
+      padding-left: 3rem;
+      margin-bottom: 0.5rem;
+    }
+  }
+</style>

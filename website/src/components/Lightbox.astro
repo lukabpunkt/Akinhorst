@@ -1,0 +1,92 @@
+<dialog class="lightbox" aria-label="Bildansicht" data-lightbox>
+  <figure class="lightbox__figure" data-lightbox-figure></figure>
+  <button class="lightbox__close" type="button" aria-label="Bildansicht schließen" data-lightbox-close>
+    <span></span><span></span>
+  </button>
+</dialog>
+
+<style>
+  .lightbox {
+    width: 100vw;
+    max-width: none;
+    height: 100dvh;
+    max-height: none;
+    margin: 0;
+    padding: max(1rem, env(safe-area-inset-top)) var(--gutter-r, 1rem) max(1rem, env(safe-area-inset-bottom)) var(--gutter-l, 1rem);
+    border: 0;
+    background: rgba(22, 21, 19, 0.94);
+    color: var(--ivory);
+    opacity: 0;
+    transition: opacity 0.4s var(--ease-luxe, ease);
+  }
+  .lightbox[open] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .lightbox.is-open {
+    opacity: 1;
+  }
+  .lightbox::backdrop {
+    background: transparent;
+  }
+  .lightbox__figure {
+    margin: 0;
+    display: flex;
+    max-width: 100%;
+    max-height: 100%;
+  }
+  .lightbox__figure :global(img) {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: calc(100dvh - 7rem);
+    object-fit: contain;
+    transform: scale(0.97);
+    transition: transform 0.6s var(--ease-luxe, ease);
+  }
+  .lightbox.is-open .lightbox__figure :global(img) {
+    transform: none;
+  }
+  .lightbox__close {
+    position: absolute;
+    top: max(0.75rem, env(safe-area-inset-top));
+    right: max(0.75rem, var(--gutter-r, 0.75rem));
+    width: 48px;
+    height: 48px;
+    background: none;
+    border: 1px solid var(--line-dark);
+    color: var(--gold);
+    cursor: pointer;
+  }
+  .lightbox__close span {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 20px;
+    height: 1px;
+    background: currentColor;
+  }
+  .lightbox__close span:first-child {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+  .lightbox__close span:last-child {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+  @media (hover: hover) {
+    .lightbox__close:hover {
+      border-color: var(--gold);
+    }
+  }
+  .lightbox__close:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 4px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .lightbox,
+    .lightbox__figure :global(img) {
+      transition-duration: 0.01s;
+    }
+  }
+</style>

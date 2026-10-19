@@ -1,0 +1,297 @@
+---
+import { Picture } from "astro:assets";
+import Button from "../Button.astro";
+import CornerFrame from "../CornerFrame.astro";
+import { site } from "../../data/site";
+import innen from "../../assets/zelt-innen-hochzeit.jpg";
+import aussen from "../../assets/zelt-aussen.jpg";
+---
+
+<section class="hero" id="top" data-hero-section>
+  <div class="hero__media" data-hero-media>
+    <CornerFrame class="hero__big" corners={["tr", "br"]} data-hero-frame>
+      <div class="media hero__img" data-hero-img data-cursor-label="Ansehen" data-lightbox-media>
+        <div class="media__inner" data-hero-parallax="big">
+          <Picture
+            src={innen}
+            formats={["avif", "webp"]}
+            widths={[640, 960, 1080, 1280, 1600]}
+            width={1600}
+            sizes="(min-width: 1024px) min(38vw, 600px), 140vw"
+            quality={50}
+            alt="Festlich gedeckte Hochzeitstafel mit Schleierkraut und weißen Rosen im weißen Partyzelt"
+            loading="eager"
+            fetchpriority="high"
+          />
+        </div>
+      </div>
+    </CornerFrame>
+    <CornerFrame class="hero__small" corners={["tl", "bl"]} color="var(--gold)" data-hero-frame>
+      <div class="media hero__img" data-hero-img data-cursor-label="Ansehen" data-lightbox-media>
+        <div class="media__inner" data-hero-parallax="small">
+          <Picture
+            src={aussen}
+            formats={["avif", "webp"]}
+            widths={[360, 540, 720]}
+            width={720}
+            sizes="(min-width: 1024px) min(18vw, 300px), 1px"
+            quality={50}
+            alt="Weißes Partyzelt 5 × 10 m mit Sprossenfenstern im Garten unter hohen Bäumen"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </CornerFrame>
+  </div>
+
+  <div class="container hero__inner">
+    <div class="hero__text" data-hero-text>
+      <p class="eyebrow eyebrow--hero" data-hero="eyebrow">Event Verleih · Rahden</p>
+      <h1 class="hero__title" data-hero="title">Euer Fest verdient einen <em class="accent" data-shimmer>besonderen</em> Rahmen.</h1>
+      <p class="lead hero__lead" data-hero="fade">
+        Unser elegantes Partyzelt für Hochzeiten, Geburtstage und Firmenfeiern in Rahden, Lohne und Umgebung. Mit Lieferung, Aufbau und viel Liebe zum Detail.
+      </p>
+      <div class="hero__ctas" data-hero="fade">
+        <Button href="#kontakt">Termin anfragen</Button>
+        <Button href="#zelt" variant="ghost" arrow>Das Zelt entdecken</Button>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero__scroll" aria-hidden="true" data-hero="fade">
+    <span class="hero__scroll-label">Scroll</span>
+    <span class="hero__scroll-line"><span class="hero__scroll-dot" data-scroll-dot></span></span>
+  </div>
+  <p class="hero__fact" data-hero="fade">
+    <span>{site.tent.size}</span><span class="hero__fact-div" aria-hidden="true"></span><span>bis {site.tent.standing} Gäste</span>
+  </p>
+</section>
+
+<style>
+  /* Überstand, damit die Parallax-Verschiebung keine Lücken im Rahmen erzeugt */
+  .hero [data-hero-parallax] {
+    inset: -8% 0;
+  }
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    align-items: flex-end;
+    padding-top: calc(var(--header-h) + 1.5rem);
+    padding-bottom: clamp(5rem, 11svh, 9rem);
+    overflow: hidden;
+    color: var(--ivory);
+    background: var(--night);
+    isolation: isolate;
+  }
+  .hero__media {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+  .hero__big {
+    position: absolute;
+    inset: 0;
+  }
+  .hero__big :global(.cframe__corner) {
+    display: none;
+  }
+  .hero__big .hero__img {
+    position: absolute;
+    inset: 0;
+  }
+  .hero__big .hero__img::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    /* Kontrast: Logo/Header oben und Lead-Text (Querformat weiter oben) liegen über hellem Zeltdach */
+    background: linear-gradient(0deg, rgba(22, 21, 19, 0.85) 0%, rgba(22, 21, 19, 0.6) 50%, rgba(22, 21, 19, 0.45) 100%);
+  }
+  .hero__small {
+    display: none;
+  }
+  .media__inner :global(picture),
+  .media__inner :global(img) {
+    width: 100%;
+    height: 100%;
+  }
+  .hero__inner {
+    position: relative;
+  }
+  .hero__text {
+    max-width: 40rem;
+  }
+  .eyebrow--hero {
+    color: var(--gold-light);
+  }
+  .hero__title {
+    margin: 0 0 1.25rem;
+    /* Handy quer (geringe Höhe): Titel an die Höhe koppeln; hochkant unverändert */
+    font-size: min(var(--fs-h1), 13svh);
+  }
+  .hero__title .accent {
+    color: var(--gold-light);
+  }
+  .hero__lead {
+    max-width: 34rem;
+    margin: 0 0 2rem;
+    color: rgba(247, 243, 236, 0.86);
+  }
+  .hero__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  /* Mobil: Buttons füllen die Zeile (nebeneinander oder gestapelt) */
+  .hero__ctas > :global(*) {
+    flex: 1 1 12rem;
+    justify-content: center;
+  }
+  .hero__ctas :global(.btn--ghost) {
+    color: var(--ivory);
+  }
+  .hero__scroll {
+    position: absolute;
+    left: var(--gutter);
+    bottom: 1.75rem;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  .hero__scroll-label {
+    writing-mode: vertical-rl;
+    font-size: 0.65rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .hero__scroll-line {
+    position: relative;
+    width: 1px;
+    height: 64px;
+    background: rgba(187, 151, 88, 0.45);
+    overflow: hidden;
+  }
+  .hero__scroll-dot {
+    position: absolute;
+    left: -1px;
+    top: 0;
+    width: 3px;
+    height: 14px;
+    background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+  }
+  .hero__fact {
+    position: absolute;
+    left: var(--gutter-l);
+    bottom: 1.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    margin: 0;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: rgba(247, 243, 236, 0.85);
+  }
+  .hero__fact-div {
+    width: 1px;
+    height: 1rem;
+    background: var(--gold);
+  }
+
+  @media (min-width: 1024px) {
+    .hero {
+      color: var(--ink);
+      background: transparent;
+      align-items: center;
+      padding-bottom: 6rem;
+      padding-top: calc(var(--header-h) + 2rem);
+    }
+    .hero__title {
+      margin-bottom: 1.75rem;
+    }
+    .hero__lead {
+      margin-bottom: 2.5rem;
+    }
+    .hero__ctas {
+      gap: 1rem;
+    }
+    .hero__ctas > :global(*) {
+      flex: none;
+    }
+    .hero__media {
+      left: auto;
+      right: var(--gutter);
+      top: calc(var(--header-h) + 1.5rem);
+      bottom: 4.5rem;
+      width: min(46vw, 720px);
+      z-index: 0;
+    }
+    .hero__big {
+      inset: 0 0 0 18%;
+    }
+    .hero__big :global(.cframe__corner) {
+      display: block;
+    }
+    .hero__big .hero__img::after {
+      display: none;
+    }
+    .hero__small {
+      display: block;
+      position: absolute;
+      left: 0;
+      bottom: 9%;
+      width: 38%;
+      aspect-ratio: 3 / 4;
+      z-index: 2;
+      box-shadow: 0 30px 60px -30px rgba(22, 21, 19, 0.45);
+    }
+    .hero__small .hero__img {
+      position: absolute;
+      inset: 0;
+      outline: 8px solid var(--ivory);
+    }
+    .hero__inner {
+      z-index: 1;
+      /* Container spannt über die Fotos – Klicks/Hover sollen dort die Bilder erreichen */
+      pointer-events: none;
+    }
+    .hero__text {
+      pointer-events: auto;
+      /* Platz bis zur Bildspalte (kleines Bild ragt links heraus) */
+      max-width: min(calc(100vw - min(46vw, 720px) - 2 * var(--gutter) - 2.5rem), 46rem);
+    }
+    .hero__title {
+      font-size: clamp(2.75rem, min(5.2vw + 1rem, 9.5vh), 6.5rem);
+    }
+    .eyebrow--hero {
+      color: var(--gold-deep);
+    }
+    .hero__title .accent {
+      color: var(--gold-deep);
+    }
+    .hero__lead {
+      color: var(--ink-soft);
+    }
+    .hero__ctas :global(.btn--ghost) {
+      color: var(--ink);
+    }
+    .hero__scroll {
+      display: flex;
+    }
+    .hero__fact {
+      color: var(--ink-soft);
+      right: var(--gutter);
+      left: auto;
+      bottom: 1.6rem;
+    }
+  }
+  @media (min-width: 1024px) and (max-height: 960px) {
+    .hero__scroll {
+      display: none;
+    }
+  }
+</style>

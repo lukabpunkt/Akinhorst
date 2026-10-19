@@ -1,0 +1,292 @@
+---
+import Eyebrow from "../Eyebrow.astro";
+import Button from "../Button.astro";
+import { site, formatPrice } from "../../data/site";
+---
+
+<section class="section packages on-dark" id="pakete" aria-labelledby="pk-title" data-loop>
+  <div class="container">
+    <header class="packages__head">
+      <Eyebrow text="Pakete" tone="light" />
+      <h2 id="pk-title" data-anim="lines">Klar. Fair. <em class="accent">Persönlich.</em></h2>
+    </header>
+
+    <div class="packages__track" data-pk-track>
+      {site.packages.map((p) => (
+        <article class:list={["pk", { "pk--featured": p.featured }]} data-pk-card>
+          <div class="pk__inner" data-pk-tilt data-frame-anim={p.featured ? "" : undefined} style={p.featured ? "--cf-color:var(--gold);--cf-len:32%;--cf-len-y:22%" : undefined}>
+            <span class="pk__glare" aria-hidden="true" data-pk-glare></span>
+            {p.featured && (
+              <>
+                <span class="pk__ring" aria-hidden="true"></span>
+                <span class="cframe__corner cframe__corner--tl" aria-hidden="true" />
+                <span class="cframe__corner cframe__corner--bl" aria-hidden="true" />
+              </>
+            )}
+            {p.badge && <span class="pk__badge label">{p.badge}</span>}
+            <h3 class="pk__name">{p.name}</h3>
+            {/* TODO(INHABER): Preis bestätigen – zentral in src/data/site.ts */}
+            <p class="pk__price">
+              <span class="pk__amount">{formatPrice(p.price)}</span>
+            </p>
+            <p class="pk__tagline">{p.tagline}</p>
+            <ul class="pk__list">
+              {p.features.map((f) => (
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" /></svg>
+                  {f}
+                </li>
+              ))}
+            </ul>
+            <a class="pk__link" href={`?paket=${p.id}#kontakt`} data-paket={p.id}>
+              {p.price === null ? "Anfragen" : "Dieses Paket anfragen"}<span class="sr-only">: {p.name}</span>
+              <svg viewBox="0 0 22 10" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M0 5h20M16 1l4 4-4 4" /></svg>
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+    {/* Mobil: Position im Karussell anzeigen + direkt anspringen */}
+    <div class="packages__dots" data-pk-dots>
+      {site.packages.map((p, i) => (
+        <button type="button" class="packages__dot" aria-label={`Paket ${p.name} anzeigen`} aria-current={i === 0 ? "true" : "false"} data-pk-dot={i}></button>
+      ))}
+    </div>
+
+    <div class="packages__foot" data-anim="fade-up">
+      <p>{site.packagesNote}</p>
+      <Button href="#kontakt">Unverbindlich anfragen</Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .packages {
+    overflow: hidden;
+  }
+  .packages__head {
+    text-align: center;
+    margin-bottom: clamp(3rem, 6vw, 5rem);
+  }
+  .packages__head h2 {
+    margin: 0;
+    color: var(--ivory);
+  }
+  .packages__track {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: min(84%, 22rem);
+    gap: 1.25rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    margin-inline: calc(var(--gutter-l) * -1) calc(var(--gutter-r) * -1);
+    padding: 1.5rem var(--gutter-r) 1.25rem var(--gutter-l);
+    scroll-padding-inline: var(--gutter-l) var(--gutter-r);
+    scrollbar-width: none;
+    perspective: 1200px;
+  }
+  .packages__track::-webkit-scrollbar {
+    display: none;
+  }
+  .pk {
+    scroll-snap-align: start;
+    display: flex;
+  }
+  .pk__inner {
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: clamp(2rem, 3vw, 3rem) clamp(1.5rem, 2.5vw, 2.5rem);
+    border: 1px solid var(--line-dark);
+    background: rgba(255, 255, 255, 0.015);
+    transform-style: preserve-3d;
+  }
+  .pk--featured .pk__inner {
+    border-color: rgba(187, 151, 88, 0.7);
+    background: linear-gradient(180deg, rgba(187, 151, 88, 0.08), rgba(187, 151, 88, 0.015));
+  }
+  .pk__glare {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(227, 207, 159, 0.12), transparent 55%);
+    transition: opacity 0.5s ease;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .pk__inner:hover .pk__glare {
+      opacity: 1;
+    }
+  }
+  .pk__ring {
+    position: absolute;
+    inset: -1px;
+    pointer-events: none;
+    padding: 1px;
+    overflow: hidden;
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0.6;
+  }
+  /* Rotierende Fläche statt animierter Custom Property → läuft auf dem Compositor */
+  .pk__ring::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 300%;
+    aspect-ratio: 1;
+    margin: -150% 0 0 -150%;
+    background: conic-gradient(transparent 0deg, rgba(227, 207, 159, 0.9) 40deg, transparent 90deg, transparent 360deg);
+    animation: ring-spin 6s linear infinite;
+  }
+  @keyframes ring-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pk__ring::before {
+      animation: none;
+    }
+  }
+  .pk__badge {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    padding: 0.35rem 0.7rem;
+    font-size: 0.62rem;
+    color: var(--night);
+    background: var(--gold);
+  }
+  .pk__name {
+    margin: 0 0 1.5rem;
+    color: var(--ivory);
+    font-size: clamp(1.75rem, 1.2vw + 1.2rem, 2.25rem);
+  }
+  .pk__price {
+    margin: 0 0 1rem;
+    font-family: var(--font-serif);
+    font-weight: 300;
+    font-size: clamp(3rem, 3vw + 1.5rem, 4.25rem);
+    line-height: 1;
+    color: var(--gold);
+  }
+  .pk__tagline {
+    margin: 0 0 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--line-dark);
+    color: rgba(247, 243, 236, 0.8);
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.3rem;
+    line-height: 1.35;
+  }
+  .pk__list {
+    list-style: none;
+    margin: 0 0 2.5rem;
+    padding: 0;
+    display: grid;
+    gap: 0.85rem;
+    font-size: 0.95rem;
+    color: rgba(247, 243, 236, 0.86);
+  }
+  .pk__list li {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+  .pk__list svg {
+    width: 1.1rem;
+    flex: none;
+    margin-top: 0.3rem;
+    color: var(--gold);
+  }
+  .pk__link {
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    align-self: flex-start;
+    min-height: 44px;
+    padding: 0.6rem 0;
+    margin-bottom: -0.6rem;
+    background: linear-gradient(var(--gold), var(--gold)) 0 calc(100% - 0.55rem) / 0 1px no-repeat;
+    transition: background-size 0.6s var(--ease-luxe);
+  }
+  .pk__link svg {
+    width: 1.1rem;
+    transition: transform 0.5s var(--ease-luxe);
+  }
+  @media (hover: hover) {
+    .pk__link:hover {
+      background-size: 100% 1px;
+    }
+    .pk__link:hover svg {
+      transform: translateX(4px);
+    }
+  }
+  .pk__link:focus-visible {
+    background-size: 100% 1px;
+  }
+  .packages__dots {
+    display: flex;
+    justify-content: center;
+  }
+  .packages__dot {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+  }
+  .packages__dot::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid var(--gold);
+    transition: background-color 0.3s ease, transform 0.4s var(--ease-luxe);
+  }
+  .packages__dot[aria-current="true"]::before {
+    background: var(--gold);
+    transform: scale(1.25);
+  }
+  .packages__foot {
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.75rem;
+    text-align: center;
+  }
+  .packages__foot p {
+    margin: 0;
+    color: rgba(247, 243, 236, 0.75);
+  }
+  @media (min-width: 1024px) {
+    .packages__track {
+      grid-auto-flow: row;
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-columns: auto;
+      overflow: visible;
+      margin-inline: 0;
+      padding-inline: 0;
+      padding-bottom: 2rem;
+      gap: 2rem;
+    }
+    .packages__dots {
+      display: none;
+    }
+  }
+</style>

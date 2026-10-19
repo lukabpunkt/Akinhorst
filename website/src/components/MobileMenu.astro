@@ -1,0 +1,24 @@
+---
+import { nav } from "../data/nav";
+import { site } from "../data/site";
+import Icon from "./Icon.astro";
+const { prefix = "" } = Astro.props;
+---
+
+<nav class="mmenu" id="mmenu" aria-label="Menü" data-mmenu data-lenis-prevent inert>
+  <ul class="mmenu__list">
+    {nav.map((item, i) => (
+      <li class="mmenu__item">
+        <a class="mmenu__link" href={`${prefix}#${item.id}`} style={`transition-delay:${0.25 + i * 0.06}s`} data-mmenu-link>
+          <small aria-hidden="true">0{i + 1}</small>
+          {item.label}
+        </a>
+      </li>
+    ))}
+  </ul>
+  <div class="mmenu__foot">
+    <a href={site.phone.href}><span class="label">Telefon</span><span>{site.phone.display}</span></a>
+    <a href={site.whatsapp} target="_blank" rel="noopener noreferrer"><span class="label">WhatsApp</span><span class="sr-only"> (öffnet in neuem Fenster)</span><Icon name="arrow" class="icon icon--sm" /></a>
+    <a href={site.instagram} target="_blank" rel="noopener noreferrer"><span class="label">Instagram</span><span class="sr-only"> (öffnet in neuem Fenster)</span><Icon name="arrow" class="icon icon--sm" /></a>
+  </div>
+</nav>

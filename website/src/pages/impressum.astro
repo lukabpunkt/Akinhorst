@@ -1,0 +1,56 @@
+---
+import LegalLayout from "../layouts/LegalLayout.astro";
+import { site } from "../data/site";
+---
+
+<LegalLayout title="Impressum | Bakin & Horst Event Design" heading="Impressum" description="Impressum der Bakin & Horst Event Design GbR, Rahden.">
+  <h2>Angaben gemäß § 5 DDG</h2>
+  <p>
+    {site.name}<br />
+    {site.address.street}<br />
+    {site.address.zip} {site.address.city}<br />
+    Deutschland
+  </p>
+  <p>
+    <strong>Vertreten durch die Gesellschafter:</strong><br />
+    {site.owners.join(", ")} <span class="todo">TODO(INHABER): Gesellschafter vollständig?</span>
+  </p>
+
+  <h2>Kontakt</h2>
+  <p>
+    Telefon: <a href={site.phone.href}>{site.phone.display}</a><br />
+    E-Mail: <a href={`mailto:${site.email}`}>{site.email}</a>
+  </p>
+
+  <h2>Umsatzsteuer</h2>
+  <p>
+    <span class="todo">TODO(INHABER): Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG eintragen – oder Hinweis: „Gemäß § 19 UStG wird keine Umsatzsteuer berechnet (Kleinunternehmerregelung).“</span>
+  </p>
+
+  <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+  <p>
+    {site.owners[0]}<br />
+    {site.address.street}, {site.address.zip} {site.address.city}
+    <span class="todo">TODO(INHABER): bestätigen</span>
+  </p>
+
+  <h2>Verbraucherstreitbeilegung</h2>
+  <p>
+    Wir sind nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.
+  </p>
+
+  <h2>Haftung für Inhalte</h2>
+  <p>
+    Als Diensteanbieter sind wir für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Wir sind jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen. Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt.
+  </p>
+
+  <h2>Haftung für Links</h2>
+  <p>
+    Unser Angebot enthält Links zu externen Websites Dritter (z. B. Instagram, WhatsApp), auf deren Inhalte wir keinen Einfluss haben. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber verantwortlich. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Links umgehend entfernen.
+  </p>
+
+  <h2>Urheberrecht</h2>
+  <p>
+    Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten, insbesondere Fotos und Logo, unterliegen dem deutschen Urheberrecht. Vervielfältigung, Bearbeitung und Verbreitung außerhalb der Grenzen des Urheberrechts bedürfen der schriftlichen Zustimmung.
+  </p>
+</LegalLayout>

@@ -1,0 +1,167 @@
+---
+import glyphs from "../data/logo-glyphs.json";
+/**
+ * SVG-Nachbau des Bakin-&-Horst-Logos (Vorlage: src/assets/logo-original-transparent.png).
+ * Farben über CSS-Variablen: --logo-ink (Schrift, Rahmen), --logo-gold (H, &, Trennstrich, „Event Verleih“).
+ */
+interface Props {
+  variant?: "full" | "compact" | "monogram";
+  tone?: "dark" | "light";
+  animated?: boolean;
+  class?: string;
+  id?: string;
+  title?: string;
+}
+const { variant = "full", tone = "dark", animated = false, class: cls = "", id, title = "Bakin & Horst Event Design GbR" } = Astro.props;
+
+// Wortmarke „BAKIN & HORST“: Buchstaben einzeln positioniert (für die Sperrungs-Animation)
+const word = "BAKIN & HORST";
+const fs = 64;
+const widths: Record<string, number> = { B: 0.6, A: 0.68, K: 0.68, I: 0.31, N: 0.74, "&": 0.72, H: 0.76, O: 0.76, R: 0.64, S: 0.5, T: 0.62, " ": 0.18 };
+const chars = [...word];
+const raw = chars.reduce((s, c) => s + widths[c] * fs, 0);
+const span = 632;
+const tracking = (span - raw) / (chars.length - 1);
+let cursor = 4;
+const letters = chars.map((c) => {
+  const w = widths[c] * fs;
+  const x = cursor + w / 2;
+  cursor += w + tracking;
+  return { c, x };
+});
+const uid = `lg${Math.random().toString(36).slice(2, 8)}`;
+---
+
+{variant === "full" && (
+  <svg
+    class:list={["logo", `logo--${tone}`, cls, { "logo--animated": animated }]}
+    id={id}
+    viewBox="-4 -4 648 500"
+    role="img"
+    aria-label={title}
+    data-logo
+  >
+    <title>{title}</title>
+    <g class="logo__frame" fill="none" stroke="var(--logo-ink)" stroke-width="2.2">
+      <path data-logo-corner="top" pathLength="1" d="M67 246 V2 H328" />
+      <path data-logo-corner="bottom" pathLength="1" d="M67 423 V476 H118" />
+    </g>
+    <path data-logo-b d={glyphs.B} fill="var(--logo-ink)" />
+    <line data-logo-divider x1="316" y1="34" x2="316" y2="244" stroke="var(--logo-gold)" stroke-width="2" />
+    <defs>
+      <linearGradient id={`${uid}-shine`} gradientUnits="userSpaceOnUse" x1="250" y1="0" x2="330" y2="0" data-logo-shine>
+        <stop offset="0" stop-color="#fff" stop-opacity="0" />
+        <stop offset="0.5" stop-color="#F4E7C6" stop-opacity="0.95" />
+        <stop offset="1" stop-color="#fff" stop-opacity="0" />
+      </linearGradient>
+    </defs>
+    <g data-logo-h>
+      <path d={glyphs.H} fill="var(--logo-gold)" />
+      <path d={glyphs.H} fill={`url(#${uid}-shine)`} aria-hidden="true" />
+    </g>
+    <g class="logo__word" data-logo-word>
+      {letters.filter((l) => l.c !== " ").map((l) => (
+        <text x={l.x.toFixed(1)} y="338" text-anchor="middle" class="logo__wordmark" fill={l.c === "&" ? "var(--logo-gold)" : "var(--logo-ink)"} data-x={l.x.toFixed(1)}>{l.c}</text>
+      ))}
+    </g>
+    <g data-logo-sub>
+      <line data-logo-rule="left" x1="4" y1="384" x2="92" y2="384" stroke="var(--logo-ink)" stroke-width="2" />
+      <text x="320" y="392" text-anchor="middle" class="logo__sub" fill="var(--logo-ink)" textLength="396" lengthAdjust="spacing">EVENT DESIGN GBR</text>
+      <line data-logo-rule="right" x1="548" y1="384" x2="636" y2="384" stroke="var(--logo-ink)" stroke-width="2" />
+    </g>
+    <text data-logo-verleih x="152" y="484" class="logo__verleih" fill="var(--logo-gold)" textLength="276" lengthAdjust="spacing">EVENT VERLEIH</text>
+  </svg>
+)}
+
+{variant === "compact" && (
+  <span class:list={["logo-compact", `logo--${tone}`, cls]} id={id}>
+    <svg class="logo-compact__mono" viewBox="0 0 120 80" aria-hidden="true">
+      <path d={glyphs.smallB} fill="var(--logo-ink)" />
+      <line x1="60" y1="8" x2="60" y2="72" stroke="var(--logo-gold)" stroke-width="1.5" />
+      <path d={glyphs.smallH} fill="var(--logo-gold)" />
+    </svg>
+    <span class="logo-compact__word">Bakin <span class="logo-compact__amp">&amp;</span> Horst</span>
+    <span class="sr-only">{title}</span>
+  </span>
+)}
+
+{variant === "monogram" && (
+  <svg class:list={["logo", `logo--${tone}`, cls]} id={id} viewBox="0 0 120 80" role="img" aria-label={title}>
+    <path d={glyphs.smallB} fill="var(--logo-ink)" />
+    <line x1="60" y1="8" x2="60" y2="72" stroke="var(--logo-gold)" stroke-width="1.5" />
+    <path d={glyphs.smallH} fill="var(--logo-gold)" />
+  </svg>
+)}
+
+<style is:global>
+  .logo,
+  .logo-compact {
+    --logo-ink: currentColor;
+    --logo-gold: var(--gold);
+  }
+  .logo {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+  .logo--dark {
+    color: var(--ink);
+  }
+  .logo--light {
+    color: var(--ivory);
+  }
+  .logo__mono {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: 232px;
+  }
+  .logo__wordmark {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 64px;
+  }
+  .logo__sub {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 23px;
+  }
+  .logo__verleih {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 19px;
+  }
+  .logo-compact {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.85rem;
+    color: inherit;
+    line-height: 1;
+  }
+  .logo-compact__mono {
+    width: 46px;
+    height: auto;
+    overflow: visible;
+    transition: width 0.5s var(--ease-luxe);
+  }
+  .logo-compact__word {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.05rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .logo-compact__amp {
+    color: var(--gold);
+  }
+  .is-scrolled .logo-compact__mono {
+    width: 40px;
+  }
+  @media (max-width: 380px) {
+    .logo-compact__word {
+      font-size: 0.9rem;
+      letter-spacing: 0.16em;
+    }
+  }
+</style>

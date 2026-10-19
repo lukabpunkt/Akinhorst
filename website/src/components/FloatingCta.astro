@@ -1,0 +1,10 @@
+---
+import { site } from "../data/site";
+import Button from "./Button.astro";
+import Icon from "./Icon.astro";
+---
+
+<div class="fcta" data-fcta aria-hidden="true">
+  <Button href={site.phone.href} variant="ghost" magnetic={false} tabindex="-1"><Icon name="phone" class="icon icon--sm" />Anrufen</Button>
+  <Button href="#kontakt" magnetic={false} tabindex="-1">Anfragen</Button>
+</div>

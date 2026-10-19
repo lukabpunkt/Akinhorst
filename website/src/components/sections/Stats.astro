@@ -1,0 +1,87 @@
+---
+import { site } from "../../data/site";
+const stats = [
+  { value: site.tent.area, unit: "m²", label: "Grundfläche" },
+  { value: site.tent.standing, unit: "", label: "Stehplätze" },
+  { value: site.tent.seatsRows, unit: "", label: "Sitzplätze in Reihe" },
+  { value: site.tent.seatsBenches, unit: "", label: `an ${site.tent.benchSets} Garnituren` },
+];
+---
+
+<section class="stats" aria-label="Das Zelt in Zahlen">
+  <div class="container">
+    <dl class="stats__list">
+      {stats.map((s) => (
+        <div class="stats__item" data-anim="fade-up">
+          <dt class="label">{s.label}</dt>
+          <dd>
+            <span data-count={s.value}>{s.value}</span>{s.unit && <span class="stats__unit">{s.unit}</span>}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
+
+<style>
+  .stats {
+    padding-block: clamp(4rem, 8vw, 7rem);
+    background: var(--ivory);
+    border-block: 1px solid var(--stone);
+  }
+  .stats__list {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 3rem;
+  }
+  .stats__item {
+    position: relative;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    text-align: center;
+    padding-inline: 0.75rem;
+  }
+  .stats__item:nth-child(even)::before,
+  .stats__item + .stats__item::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 12%;
+    bottom: 12%;
+    width: 1px;
+    background: var(--gold);
+    transform-origin: top;
+    transform: scaleY(var(--div-scale, 1));
+  }
+  .stats__item:nth-child(3)::before {
+    display: none;
+  }
+  dd {
+    margin: 0 0 0.5rem;
+    font-family: var(--font-serif);
+    font-weight: 300;
+    font-size: clamp(3.75rem, 6vw + 1rem, 7rem);
+    line-height: 1;
+    color: var(--ink);
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+  .stats__unit {
+    font-size: 0.45em;
+    margin-left: 0.15em;
+    color: var(--gold-deep);
+  }
+  dt {
+    color: var(--ink-soft);
+    font-size: 0.68rem;
+  }
+  @media (min-width: 768px) {
+    .stats__list {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .stats__item:nth-child(3)::before {
+      display: block;
+    }
+  }
+</style>

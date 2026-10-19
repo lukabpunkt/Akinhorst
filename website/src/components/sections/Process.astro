@@ -1,0 +1,118 @@
+---
+import Eyebrow from "../Eyebrow.astro";
+import { site } from "../../data/site";
+---
+
+<section class="section process" id="ablauf" aria-labelledby="pr-title" data-process>
+  <div class="container">
+    <header class="process__head">
+      <Eyebrow text="So einfach geht's" />
+      <h2 id="pr-title" data-anim="lines">In <em class="accent">fünf</em> Schritten zum Fest.</h2>
+    </header>
+    <div class="process__wrap" data-process-list>
+    <span class="process__track" aria-hidden="true"><span class="process__fill" data-process-fill></span></span>
+    <ol class="process__list">
+      {site.steps.map((s, i) => (
+        <li class="step" data-step>
+          <span class="step__dot" aria-hidden="true"><span class="step__dot-fill" data-step-dot></span></span>
+          <div class="step__body" data-step-body>
+            <span class="label step__num">Schritt 0{i + 1}</span>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .process__head {
+    text-align: center;
+    margin-bottom: clamp(3.5rem, 7vw, 6rem);
+  }
+  .process__head h2 {
+    margin: 0;
+  }
+  .process__wrap {
+    position: relative;
+  }
+  .process__list {
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 2.75rem;
+  }
+  .process__track {
+    position: absolute;
+    left: 11px;
+    top: 12px;
+    bottom: 12px;
+    width: 1px;
+    background: var(--stone);
+  }
+  .process__fill {
+    position: absolute;
+    inset: 0;
+    background: var(--gold);
+    transform-origin: top;
+  }
+  .step {
+    position: relative;
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    gap: 1.5rem;
+  }
+  .step__dot {
+    position: relative;
+    width: 23px;
+    height: 23px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    background: var(--ivory);
+    margin-top: 0.15rem;
+  }
+  .step__dot-fill {
+    position: absolute;
+    inset: 5px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+  .step__num {
+    color: var(--gold-deep);
+    font-size: 0.65rem;
+  }
+  .step h3 {
+    margin: 0.6rem 0 0.5rem;
+  }
+  .step p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+    max-width: 22rem;
+  }
+  @media (min-width: 1024px) {
+    .process__list {
+      grid-template-columns: repeat(5, 1fr);
+      gap: 2rem;
+    }
+    .process__track {
+      left: 12px;
+      right: calc(20% - 12px);
+      top: 11px;
+      bottom: auto;
+      width: auto;
+      height: 1px;
+    }
+    .process__fill {
+      transform-origin: left;
+    }
+    .step {
+      grid-template-columns: 1fr;
+      gap: 1.75rem;
+    }
+  }
+</style>

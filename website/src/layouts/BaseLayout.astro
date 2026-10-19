@@ -1,0 +1,118 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Cursor from "../components/Cursor.astro";
+import Preloader from "../components/Preloader.astro";
+import FloatingCta from "../components/FloatingCta.astro";
+import Lightbox from "../components/Lightbox.astro";
+import { site } from "../data/site";
+import cormorant400 from "@fontsource/cormorant-garamond/files/cormorant-garamond-latin-400-normal.woff2?url";
+import montserrat400 from "@fontsource/montserrat/files/montserrat-latin-400-normal.woff2?url";
+import montserrat300 from "@fontsource/montserrat/files/montserrat-latin-300-normal.woff2?url";
+import cormorant400i from "@fontsource/cormorant-garamond/files/cormorant-garamond-latin-400-italic.woff2?url";
+
+interface Props {
+  title?: string;
+  description?: string;
+  preloader?: boolean;
+  noindex?: boolean;
+  solidHeader?: boolean;
+  floatingCta?: boolean;
+  jsonLd?: object[];
+}
+
+const {
+  title = "Partyzelt mieten in Rahden | Bakin & Horst Event Design",
+  description = "Elegantes Partyzelt 5×10 m mieten in Rahden & Umgebung – für Hochzeiten, Geburtstage & Firmenfeiern. Mit Lieferung & Aufbauservice. Jetzt Termin anfragen!",
+  preloader = false,
+  noindex = false,
+  solidHeader = false,
+  floatingCta = false,
+  jsonLd = [],
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname.replace(/\.html$/, "").replace(/\/index$/, "/"), site.url).href;
+const ogImage = new URL("/og-image.jpg", site.url).href;
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <meta name="theme-color" content="#161513" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+
+    <link rel="preload" href={cormorant400} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={montserrat400} as="font" type="font/woff2" crossorigin />
+    <!-- Hero-Lead (300) und Akzentwort der H1 (Italic): ohne Preload Umbruchsprung nach dem Font-Swap (CLS) -->
+    <link rel="preload" href={montserrat300} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={cormorant400i} as="font" type="font/woff2" crossorigin />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:site_name" content="Bakin & Horst Event Design" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    {jsonLd.map((data) => <script type="application/ld+json" set:html={JSON.stringify(data)} />)}
+
+    <!-- Progressive Enhancement: Animations-Startzustände nur mit JS; Preloader nur 1× pro Session -->
+    <script is:inline define:vars={{ preloader }}>
+      (function () {
+        var d = document.documentElement;
+        var rm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        d.classList.add("js", "js-anim");
+        if (rm) d.classList.add("reduced-motion");
+        // Preloader nur am Desktop mit Maus – mobil zählt jede Sekunde bis zum ersten Inhalt
+        var desk = window.matchMedia("(min-width: 1024px) and (hover: hover)").matches;
+        if (preloader && desk) {
+          var seen = false;
+          try { seen = sessionStorage.getItem("bh-intro") === "1"; } catch (e) {}
+          if (!seen) d.classList.add("js-preload");
+        }
+        // Failsafe: falls Skripte nicht (rechtzeitig) laden, Inhalte trotzdem zeigen
+        setTimeout(function () {
+          if (!d.classList.contains("anim-ready")) {
+            d.classList.remove("js-anim", "js-preload");
+            d.classList.add("anim-failed");
+          }
+        }, 6000);
+      })();
+    </script>
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Zum Inhalt springen</a>
+    {preloader && <Preloader />}
+    <Header solid={solidHeader} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
+    {floatingCta && <FloatingCta />}
+    <Lightbox />
+    <Cursor />
+    <div class="grain" aria-hidden="true"></div>
+    <script>
+      import "../scripts/animations";
+    </script>
+  </body>
+</html>

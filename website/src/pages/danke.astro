@@ -1,0 +1,64 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Button from "../components/Button.astro";
+import { site } from "../data/site";
+---
+
+<BaseLayout title="Vielen Dank | Bakin & Horst Event Design" description="Danke für eure Anfrage." noindex solidHeader>
+  <section class="thanks">
+    <div class="container thanks__inner">
+      <svg class="thanks__check" viewBox="0 0 120 120" aria-hidden="true">
+        <circle cx="60" cy="60" r="56" pathLength="1" />
+        <path d="M38 62 L54 77 L84 45" pathLength="1" />
+      </svg>
+      <p class="eyebrow">Anfrage gesendet</p>
+      <h1>Danke! <em class="accent">Wir melden uns.</em></h1>
+      <p class="lead">Wir haben eure Anfrage erhalten und melden uns {site.responseTime}. Eilt es? Ruft uns gern an: <a class="tlink" href={site.phone.href}>{site.phone.display}</a></p>
+      <Button href="/" variant="ghost" arrow>Zur Startseite</Button>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .thanks {
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    padding-block: calc(var(--header-h) + 3rem) 5rem;
+    text-align: center;
+  }
+  .thanks__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .thanks__check {
+    width: 96px;
+    margin-bottom: 2.5rem;
+    fill: none;
+    stroke: var(--gold);
+    stroke-width: 1.5;
+  }
+  .thanks__check circle,
+  .thanks__check path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: draw 1.4s var(--ease-silk) forwards;
+  }
+  .thanks__check path {
+    animation-delay: 0.9s;
+    animation-duration: 0.8s;
+  }
+  @keyframes draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  h1 {
+    margin: 0 0 1.5rem;
+  }
+  .lead {
+    max-width: 34rem;
+    margin: 0 0 2.5rem;
+  }
+</style>

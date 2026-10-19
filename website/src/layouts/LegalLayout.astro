@@ -1,0 +1,72 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+interface Props {
+  title: string;
+  heading: string;
+  description: string;
+  eyebrow?: string;
+  noindex?: boolean;
+}
+const { title, heading, description, eyebrow = "Rechtliches", noindex = false } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} solidHeader noindex={noindex}>
+  <article class="legal">
+    <div class="container legal__inner">
+      <p class="eyebrow eyebrow--left" data-anim="eyebrow">{eyebrow}</p>
+      <h1 data-anim="fade-up">{heading}</h1>
+      <div class="legal__body" data-anim="fade-up">
+        <slot />
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .legal {
+    padding-top: calc(var(--header-h) + clamp(3rem, 8vw, 6rem));
+    padding-bottom: var(--section-y);
+  }
+  .legal__inner {
+    max-width: calc(52rem + 2 * var(--gutter));
+  }
+  .legal h1 {
+    /* Mobil: „Datenschutzerklärung“ muss bei 360 px in eine Zeile passen */
+    font-size: clamp(2.25rem, 4vw + 1rem, 4.5rem);
+    margin: 0 0 3rem;
+    overflow-wrap: break-word;
+    hyphens: manual;
+  }
+  .legal__body :global(h2) {
+    font-size: clamp(1.6rem, 1.2vw + 1.1rem, 2.1rem);
+    margin: 3rem 0 1rem;
+  }
+  .legal__body :global(h3) {
+    font-size: 1.3rem;
+    margin: 2rem 0 0.5rem;
+  }
+  .legal__body :global(p),
+  .legal__body :global(li) {
+    color: var(--ink-soft);
+  }
+  .legal__body :global(a) {
+    background-image: linear-gradient(var(--gold), var(--gold));
+    background-size: 100% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+  }
+  .legal__body :global(.todo) {
+    display: inline-block;
+    padding: 0.1rem 0.5rem;
+    background: #fbefc9;
+    color: #6b4f12;
+    font-size: 0.85em;
+    border: 1px dashed var(--gold-deep);
+  }
+  .legal__body :global(.notice) {
+    padding: 1.25rem 1.5rem;
+    border-left: 2px solid var(--gold);
+    background: var(--paper);
+    margin-bottom: 2.5rem;
+  }
+</style>

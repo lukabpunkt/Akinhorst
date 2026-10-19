@@ -1,0 +1,55 @@
+---
+import Logo from "./Logo.astro";
+import { site } from "../data/site";
+import { nav } from "../data/nav";
+const home = Astro.url.pathname === "/" || Astro.url.pathname === "/index.html";
+const prefix = home ? "" : "/";
+---
+
+<footer class="footer on-dark" data-footer>
+  <div class="footer__bgtype" aria-hidden="true" data-footer-type></div>
+  <div class="container">
+    <div class="footer__logo">
+      <Logo variant="full" tone="light" id="footer-logo" />
+    </div>
+    <div class="footer__grid">
+      <div class="footer__col">
+        <h2>Kontakt</h2>
+        <ul>
+          <li>{site.name}</li>
+          <li>{site.address.street}, {site.address.zip} {site.address.city}</li>
+          <li><a href={site.phone.href}>{site.phone.display}</a></li>
+          <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h2>Navigation</h2>
+        <ul>
+          {nav.map((i) => <li><a href={`${prefix}#${i.id}`}>{i.label}</a></li>)}
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h2>Social</h2>
+        <ul>
+          <li><a href={site.instagram} target="_blank" rel="noopener noreferrer">Instagram<span class="sr-only"> (öffnet in neuem Fenster)</span></a></li>
+          <li><a href={site.whatsapp} target="_blank" rel="noopener noreferrer">WhatsApp<span class="sr-only"> (öffnet in neuem Fenster)</span></a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h2>Rechtliches</h2>
+        <ul>
+          <li><a href="/impressum">Impressum</a></li>
+          <li><a href="/datenschutz">Datenschutz</a></li>
+          <li><a href="/mietbedingungen">Mietbedingungen</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p>© {site.founded} {site.name} · {site.address.city}</p>
+      <button class="totop" type="button" data-totop>
+        Nach oben
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M12 21V3M6 9l6-6 6 6" /></svg>
+      </button>
+    </div>
+  </div>
+</footer>

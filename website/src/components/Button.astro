@@ -1,0 +1,31 @@
+---
+interface Props {
+  href?: string;
+  variant?: "primary" | "ghost";
+  arrow?: boolean;
+  magnetic?: boolean;
+  type?: "button" | "submit";
+  class?: string;
+  [key: string]: unknown;
+}
+const { href, variant = "primary", arrow = false, magnetic = true, type = "button", class: cls = "", ...rest } = Astro.props;
+const Tag = href ? "a" : "button";
+---
+
+<Tag
+  class:list={["btn", `btn--${variant}`, cls]}
+  href={href}
+  type={href ? undefined : type}
+  data-magnetic={magnetic ? "" : undefined}
+  {...rest}
+>
+  {variant === "ghost" && <span class="btn__corners" aria-hidden="true" />}
+  <span class="btn__label">
+    <slot />
+    {arrow && (
+      <svg class="btn__arrow" viewBox="0 0 22 10" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true">
+        <path d="M0 5h20M16 1l4 4-4 4" />
+      </svg>
+    )}
+  </span>
+</Tag>

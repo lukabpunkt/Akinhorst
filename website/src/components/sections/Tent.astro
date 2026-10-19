@@ -1,0 +1,201 @@
+---
+import { Picture } from "astro:assets";
+import Eyebrow from "../Eyebrow.astro";
+import CornerFrame from "../CornerFrame.astro";
+import aussen from "../../assets/zelt-aussen.jpg";
+import innen from "../../assets/zelt-innen-hochzeit.jpg";
+import { site } from "../../data/site";
+
+const chapters = [
+  { title: "Großzügig", text: `${site.tent.area} m² überdachte Fläche – genug Platz für Tafel, Buffet und Tanzfläche.` },
+  { title: "Wetterfest", text: "Seitenwände mit Sprossenfenstern – einzeln abnehmbar. Offen bei Sonne, geschützt bei Wind und Regen." },
+  { title: "Wandelbar", text: "Von der Gartenparty bis zur festlichen Hochzeitstafel – das Zelt passt sich eurem Anlass an." },
+];
+---
+
+<section class="tent" id="zelt" aria-labelledby="tent-title" data-tent>
+  <div class="container tent__grid" data-tent-stage>
+    <CornerFrame class="tent__frame" corners={["tl", "bl"]}>
+      <div class="media tent__media" data-cursor-label="Ansehen" data-lightbox-media role="group" aria-label="Fotos vom Zelt" tabindex="0">
+        <div class="media__inner tent__layer" data-tent-img="0">
+          <Picture src={aussen} formats={["avif", "webp"]} width={1280} widths={[640, 960, 1280]} sizes="(min-width: 1024px) min(40vw, 620px), 80vw" quality={50} alt="Partyzelt 5 × 10 m von außen mit geöffneter Längsseite auf gepflegtem Rasen" loading="lazy" />
+        </div>
+        <div class="media__inner tent__layer tent__layer--innen" data-tent-img="1">
+          <Picture src={innen} formats={["avif", "webp"]} width={1280} widths={[640, 960, 1280]} sizes="(min-width: 1024px) min(40vw, 620px), 80vw" quality={50} alt="Innenansicht des Zelts mit langer weißer Hochzeitstafel, Lichterketten und Blumenbogen" loading="lazy" />
+        </div>
+      </div>
+    </CornerFrame>
+
+    <div class="tent__content">
+      <Eyebrow text="Unser Partyzelt" align="left" />
+      <h2 id="tent-title" data-anim="lines">Raum für <em class="accent">bis zu {site.tent.standing}</em> Gäste.</h2>
+
+      <ol class="tent__chapters" data-tent-chapters>
+        {chapters.map((c, i) => (
+          <li class="tent__chapter" data-tent-chapter={i} data-anim="fade-up">
+            <span class="tent__num label">0{i + 1}</span>
+            <h3>{c.title}</h3>
+            <p>{c.text}</p>
+          </li>
+        ))}
+      </ol>
+
+      <div class="tent__progress" aria-hidden="true">
+        <span class="tent__count"><span data-tent-count>01</span> / 03</span>
+        <span class="tent__bar"><span class="tent__bar-fill" data-tent-bar></span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .tent {
+    padding-block: var(--section-y);
+    background: var(--paper);
+    position: relative;
+  }
+  .tent__grid {
+    display: grid;
+    gap: 2.5rem;
+  }
+  .tent__media {
+    aspect-ratio: 3 / 4;
+  }
+  .tent__layer :global(picture),
+  .tent__layer :global(img) {
+    width: 100%;
+    height: 100%;
+  }
+  /* Ohne Pinning (mobil): beide Fotos als wischbare Galerie statt nur eines */
+  :global(html:not(.tent-pinned)) .tent__media {
+    aspect-ratio: auto;
+    display: flex;
+    gap: 0.75rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    background: transparent;
+  }
+  :global(html:not(.tent-pinned)) .tent__media::-webkit-scrollbar {
+    display: none;
+  }
+  :global(html:not(.tent-pinned)) .tent__layer {
+    position: relative;
+    inset: auto;
+    /* Höhe auf 80 % des Viewports begrenzen (Querformat/Tablet), hochkant bleibt 86 % Breite */
+    flex: 0 0 min(86%, 60svh);
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    scroll-snap-align: start;
+    background: var(--stone);
+  }
+  .tent__layer--innen {
+    display: none;
+  }
+  :global(html:not(.tent-pinned)) .tent__layer--innen {
+    display: block;
+  }
+  .tent h2 {
+    margin: 0 0 3rem;
+  }
+  .tent__chapters {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 2.75rem;
+  }
+  .tent__chapter {
+    position: relative;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--stone);
+  }
+  .tent__num {
+    color: var(--gold-deep);
+  }
+  .tent__chapter h3 {
+    margin: 0.75rem 0 0.75rem;
+    font-size: clamp(2rem, 2vw + 1.2rem, 3rem);
+  }
+  .tent__chapter p {
+    margin: 0;
+    max-width: 30rem;
+    color: var(--ink-soft);
+  }
+  .tent__progress {
+    display: none;
+  }
+
+  /* Pin-Modus (nur Desktop mit JS) */
+  @media (min-width: 1024px) {
+    .tent__grid {
+      grid-template-columns: repeat(12, 1fr);
+      align-items: center;
+      gap: 2rem;
+    }
+    .tent__frame {
+      grid-column: 1 / span 5;
+    }
+    .tent__content {
+      grid-column: 7 / span 6;
+    }
+  }
+  :global(.tent-pinned) .tent {
+    padding-block: 0;
+  }
+  :global(.tent-pinned) .tent__grid {
+    height: 100vh;
+    height: 100svh;
+    padding-top: calc(72px + 2rem);
+    padding-bottom: 3rem;
+  }
+  :global(.tent-pinned) .tent__media {
+    aspect-ratio: auto;
+    height: min(72vh, 760px);
+  }
+  :global(.tent-pinned) .tent__layer--innen {
+    display: block;
+    clip-path: circle(0% at 70% 50%);
+  }
+  :global(.tent-pinned) .tent__chapters {
+    position: relative;
+    display: block;
+    min-height: 15rem;
+  }
+  :global(.tent-pinned) .tent__chapter {
+    position: absolute;
+    inset: 0 0 auto 0;
+  }
+  :global(.tent-pinned) .tent__progress {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+  }
+  .tent__count {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .tent__count [data-tent-count] {
+    color: var(--gold-deep);
+  }
+  .tent__bar {
+    position: relative;
+    flex: 1;
+    max-width: 18rem;
+    height: 1px;
+    background: var(--stone);
+  }
+  .tent__bar-fill {
+    position: absolute;
+    inset: 0;
+    background: var(--gold);
+    transform-origin: left;
+    transform: scaleX(0.333);
+  }
+</style>
