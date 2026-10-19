@@ -1,4 +1,5 @@
 ---
+import { url } from "../data/paths";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Button from "../components/Button.astro";
 import { site } from "../data/site";
@@ -14,7 +15,7 @@ import { site } from "../data/site";
       <p class="eyebrow">Anfrage gesendet</p>
       <h1>Danke! <em class="accent">Wir melden uns.</em></h1>
       <p class="lead">Wir haben eure Anfrage erhalten und melden uns {site.responseTime}. Eilt es? Ruft uns gern an: <a class="tlink" href={site.phone.href}>{site.phone.display}</a></p>
-      <Button href="/" variant="ghost" arrow>Zur Startseite</Button>
+      <Button href={url("/")} variant="ghost" arrow>Zur Startseite</Button>
     </div>
   </section>
 </BaseLayout>

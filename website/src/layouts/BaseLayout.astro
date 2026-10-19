@@ -1,4 +1,5 @@
 ---
+import { url, stripBase } from "../data/paths";
 import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
@@ -32,7 +33,7 @@ const {
   jsonLd = [],
 } = Astro.props;
 
-const canonical = new URL(Astro.url.pathname.replace(/\.html$/, "").replace(/\/index$/, "/"), site.url).href;
+const canonical = new URL(stripBase(Astro.url.pathname).replace(/\.html$/, "").replace(/\/index$/, "/"), site.url).href;
 const ogImage = new URL("/og-image.jpg", site.url).href;
 ---
 
@@ -48,10 +49,10 @@ const ogImage = new URL("/og-image.jpg", site.url).href;
     <meta name="theme-color" content="#161513" />
     <meta name="format-detection" content="telephone=no" />
 
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" href={url("/favicon.svg")} type="image/svg+xml" />
+    <link rel="icon" href={url("/favicon-32.png")} sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href={url("/apple-touch-icon.png")} />
+    <link rel="manifest" href={url("/manifest.webmanifest")} />
 
     <link rel="preload" href={cormorant400} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={montserrat400} as="font" type="font/woff2" crossorigin />

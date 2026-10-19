@@ -15,7 +15,7 @@ import { site } from "../../data/site";
       {site.occasions.map((o, i) => (
         <li class="occ__row">
           {/* Klick: zum Formular, Anlass wird vorausgewählt (animations.ts) */}
-          <a class="occ__link" href={`/?anlass=${encodeURIComponent(o)}#kontakt`} data-anlass={o}>
+          <a class="occ__link" href={`?anlass=${encodeURIComponent(o)}#kontakt`} data-anlass={o}>
             <span class="occ__num" aria-hidden="true">0{i + 1}</span>
             <span class="occ__name">{o}<span class="sr-only"> – Termin anfragen</span></span>
             <Icon name="arrow" class="icon occ__arrow" />

@@ -81,3 +81,8 @@ Favicons/OG-Image neu erzeugen (z. B. nach Logo-Änderung): `node scripts/genera
 - Querformat am Handy mitprüfen (Hero-Titel max. 13svh, Floating CTA schmal, Zelt-Galerie max. 60svh breit).
 - Bildansicht: Container mit `data-lightbox-media` öffnen das angeklickte Foto groß (`Lightbox.astro`, Logik `setupLightbox` in `animations.ts`). Hero-Fotos nur am Desktop, Zelt-Fotos überall. Ebenen, die über Fotos liegen, brauchen `pointer-events: none`.
 - „Wofür ihr feiert“: Jeder Anlass verlinkt auf `/?anlass=…#kontakt` und wählt den Anlass im Formular vor (wie `?paket=`). Die Anlass-Liste kommt aus `site.occasions`.
+
+## GitHub Pages (Vorschau)
+
+Jeder Push auf `main` baut die Seite über `.github/workflows/deploy.yml` und veröffentlicht sie unter https://lukabpunkt.github.io/Akinhorst/. Der Build läuft dort mit `BASE_PATH=/Akinhorst`, deshalb interne Links und Pfade immer über `url()` aus `src/data/paths.ts` schreiben (nie fest `"/…"`). Ohne `BASE_PATH` (Netlify, eigene Domain) baut die Seite wie bisher für `/`.
+Achtung: Netlify Forms und die Header aus `netlify.toml` (CSP, Caching) gibt es auf GitHub Pages nicht. Das Anfrageformular funktioniert dort nicht.

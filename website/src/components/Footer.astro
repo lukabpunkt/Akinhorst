@@ -1,9 +1,10 @@
 ---
+import { url, isHomePath } from "../data/paths";
 import Logo from "./Logo.astro";
 import { site } from "../data/site";
 import { nav } from "../data/nav";
-const home = Astro.url.pathname === "/" || Astro.url.pathname === "/index.html";
-const prefix = home ? "" : "/";
+const home = isHomePath(Astro.url.pathname);
+const prefix = home ? "" : url("/");
 ---
 
 <footer class="footer on-dark" data-footer>
@@ -38,9 +39,9 @@ const prefix = home ? "" : "/";
       <div class="footer__col">
         <h2>Rechtliches</h2>
         <ul>
-          <li><a href="/impressum">Impressum</a></li>
-          <li><a href="/datenschutz">Datenschutz</a></li>
-          <li><a href="/mietbedingungen">Mietbedingungen</a></li>
+          <li><a href={url("/impressum")}>Impressum</a></li>
+          <li><a href={url("/datenschutz")}>Datenschutz</a></li>
+          <li><a href={url("/mietbedingungen")}>Mietbedingungen</a></li>
         </ul>
       </div>
     </div>

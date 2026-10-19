@@ -1,4 +1,5 @@
 ---
+import { url } from "../../data/paths";
 import Eyebrow from "../Eyebrow.astro";
 import Icon from "../Icon.astro";
 import { site, formatPrice } from "../../data/site";
@@ -50,7 +51,7 @@ const pakete = [
         class="form"
         name="anfrage"
         method="POST"
-        action="/danke"
+        action={url("/danke")}
         data-netlify="true"
         netlify-honeypot="bot-field"
         data-form
@@ -133,7 +134,7 @@ const pakete = [
 
         <div class="check">
           <input id="f-ds" name="datenschutz" type="checkbox" required value="ja" />
-          <label for="f-ds">Ich habe die <a class="tlink" href="/datenschutz" target="_blank" rel="noopener">Datenschutzerklärung<span class="sr-only"> (öffnet in neuem Fenster)</span></a> gelesen und bin mit der Verarbeitung meiner Angaben zur Bearbeitung der Anfrage einverstanden. *</label>
+          <label for="f-ds">Ich habe die <a class="tlink" href={url("/datenschutz")} target="_blank" rel="noopener">Datenschutzerklärung<span class="sr-only"> (öffnet in neuem Fenster)</span></a> gelesen und bin mit der Verarbeitung meiner Angaben zur Bearbeitung der Anfrage einverstanden. *</label>
           <span class="field__error" id="f-ds-err" aria-live="polite"></span>
         </div>
 

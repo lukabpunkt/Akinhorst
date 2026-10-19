@@ -1,4 +1,5 @@
 ---
+import { url } from "../data/paths";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Button from "../components/Button.astro";
 ---
@@ -10,8 +11,8 @@ import Button from "../components/Button.astro";
       <h1>Hier ist leider <em class="accent">kein Fest</em>.</h1>
       <p class="lead">Die Seite, die ihr sucht, gibt es nicht (mehr). Vielleicht hilft euch die Startseite weiter.</p>
       <div class="nf__ctas">
-        <Button href="/" arrow>Zur Startseite</Button>
-        <Button href="/#kontakt" variant="ghost">Termin anfragen</Button>
+        <Button href={url("/")} arrow>Zur Startseite</Button>
+        <Button href={url("/#kontakt")} variant="ghost">Termin anfragen</Button>
       </div>
     </div>
   </section>

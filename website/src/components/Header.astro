@@ -1,4 +1,5 @@
 ---
+import { url, isHomePath } from "../data/paths";
 import Logo from "./Logo.astro";
 import Button from "./Button.astro";
 import MobileMenu from "./MobileMenu.astro";
@@ -8,13 +9,13 @@ interface Props {
   solid?: boolean; // Unterseiten: immer dunkle Schrift
 }
 const { solid = false } = Astro.props;
-const home = Astro.url.pathname === "/" || Astro.url.pathname === "/index.html";
-const prefix = home ? "" : "/";
+const home = isHomePath(Astro.url.pathname);
+const prefix = home ? "" : url("/");
 ---
 
 <header class:list={["header", { "header--solid": solid }]} data-header>
   <div class="container header__inner">
-    <a href="/" class="header__brand" aria-label="Bakin & Horst – zur Startseite">
+    <a href={url("/")} class="header__brand" aria-label="Bakin & Horst – zur Startseite">
       <Logo variant="compact" tone="dark" />
     </a>
     <nav class="nav" aria-label="Hauptnavigation">
