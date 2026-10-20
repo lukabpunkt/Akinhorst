@@ -7,4 +7,7 @@ export const url = (path: string) => `${base}${path}`;
 /** Pfad ohne Basis-Pfad, z. B. "/Akinhorst/impressum" → "/impressum" */
 export const stripBase = (pathname: string) => (base && pathname.startsWith(base) ? pathname.slice(base.length) || "/" : pathname);
 
+/** Demo-Build (GitHub Pages): noindex, Formular sendet nichts. Per PUBLIC_DEMO=true beim Build */
+export const isDemo = import.meta.env.PUBLIC_DEMO === "true";
+
 export const isHomePath = (pathname: string) => ["/", "/index", "/index.html"].includes(stripBase(pathname));

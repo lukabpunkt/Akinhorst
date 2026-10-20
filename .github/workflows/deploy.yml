@@ -31,6 +31,8 @@ jobs:
       - run: npm run build
         env:
           BASE_PATH: /${{ github.event.repository.name }}
+          # Demo: noindex, Formular sendet nichts (siehe website/README.md „Datenschutz & Cookies“)
+          PUBLIC_DEMO: "true"
       - uses: actions/upload-pages-artifact@v3
         with:
           path: website/dist

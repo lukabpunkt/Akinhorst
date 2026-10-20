@@ -85,4 +85,13 @@ Favicons/OG-Image neu erzeugen (z. B. nach Logo-Änderung): `node scripts/genera
 ## GitHub Pages (Vorschau)
 
 Jeder Push auf `main` baut die Seite über `.github/workflows/deploy.yml` und veröffentlicht sie unter https://lukabpunkt.github.io/Akinhorst/. Der Build läuft dort mit `BASE_PATH=/Akinhorst`, deshalb interne Links und Pfade immer über `url()` aus `src/data/paths.ts` schreiben (nie fest `"/…"`). Ohne `BASE_PATH` (Netlify, eigene Domain) baut die Seite wie bisher für `/`.
-Achtung: Netlify Forms und die Header aus `netlify.toml` (CSP, Caching) gibt es auf GitHub Pages nicht. Das Anfrageformular funktioniert dort nicht.
+Der Pages-Build läuft außerdem mit `PUBLIC_DEMO=true` (Demo-Modus, siehe unten). Netlify Forms und die Header aus `netlify.toml` (CSP, Caching) gibt es auf GitHub Pages nicht.
+
+## Datenschutz & Cookies
+
+Stand 20.10.2026 braucht die Seite **kein Cookie-Banner**. Sie setzt keine Cookies, nutzt keinen Local/Session Storage, kein Tracking, keine Analyse und lädt nichts von Fremdservern (Schriften lokal, Karte als SVG, WhatsApp/Instagram nur als Links mit `noreferrer`). Damit das so bleibt:
+
+- Nichts im Browser speichern (Cookies, `localStorage`, `sessionStorage`, IndexedDB), es sei denn, es ist technisch zwingend nötig (§ 25 TDDDG). Das Preloader-Intro erkennt „von außen gekommen“ deshalb über `document.referrer` statt über Storage.
+- Keine externen Einbindungen (Google Fonts, Maps, YouTube, Instagram-Feed, Analytics …) ohne Einwilligungslösung. Jede neue Einbindung braucht außerdem einen Abschnitt in der Datenschutzerklärung. Die CSP in `netlify.toml` blockiert Fremd-Requests ohnehin.
+- Das Formular hat bewusst **keine Einwilligungs-Checkbox**. Für eine Anfrage reicht Art. 6 Abs. 1 lit. b DSGVO, ein Hinweistext unter dem Button verlinkt die Datenschutzerklärung. Die Spam-Prüfung von Netlify Forms (Akismet) steht in Abschnitt 4 der Datenschutzerklärung.
+- **Demo-Modus** (`PUBLIC_DEMO=true`, nur GitHub Pages): Auf allen Seiten steht `noindex, nofollow`. Das Formular hat keine Netlify-Attribute, sendet nichts und zeigt einen Demo-Hinweis. Ohne JS ist der Button gesperrt. Für den Live-Build die Variable nicht setzen.

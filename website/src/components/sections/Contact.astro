@@ -1,5 +1,5 @@
 ---
-import { url } from "../../data/paths";
+import { url, isDemo } from "../../data/paths";
 import Eyebrow from "../Eyebrow.astro";
 import Icon from "../Icon.astro";
 import { site, formatPrice } from "../../data/site";
@@ -51,11 +51,17 @@ const pakete = [
         class="form"
         name="anfrage"
         method="POST"
-        action={url("/danke")}
-        data-netlify="true"
-        netlify-honeypot="bot-field"
+        action={isDemo ? undefined : url("/danke")}
+        data-netlify={isDemo ? undefined : "true"}
+        netlify-honeypot={isDemo ? undefined : "bot-field"}
+        data-demo={isDemo ? "" : undefined}
         data-form
       >
+        {isDemo && (
+          <p class="form__demo">
+            <strong>Demo:</strong> Das Formular ist noch nicht aktiv und sendet nichts. Erreichbar sind wir per Telefon unter <a class="tlink" href={site.phone.href}>{site.phone.display}</a> oder per E-Mail an <a class="tlink" href={`mailto:${site.email}`}>{site.email}</a>.
+          </p>
+        )}
         <input type="hidden" name="form-name" value="anfrage" />
         <p class="form__hp" aria-hidden="true">
           <label>Nicht ausfüllen: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
@@ -132,14 +138,8 @@ const pakete = [
           <span class="field__line" aria-hidden="true"></span>
         </div>
 
-        <div class="check">
-          <input id="f-ds" name="datenschutz" type="checkbox" required value="ja" />
-          <label for="f-ds">Ich habe die <a class="tlink" href={url("/datenschutz")} target="_blank" rel="noopener">Datenschutzerklärung<span class="sr-only"> (öffnet in neuem Fenster)</span></a> gelesen und bin mit der Verarbeitung meiner Angaben zur Bearbeitung der Anfrage einverstanden. *</label>
-          <span class="field__error" id="f-ds-err" aria-live="polite"></span>
-        </div>
-
         <div class="form__submit">
-          <button type="submit" class="btn btn--primary form__btn" data-submit>
+          <button type="submit" class="btn btn--primary form__btn" data-submit disabled={isDemo}>
             <span class="btn__label">Anfrage senden
               <svg class="btn__arrow" viewBox="0 0 22 10" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true"><path d="M0 5h20M16 1l4 4-4 4" /></svg>
             </span>
@@ -147,6 +147,9 @@ const pakete = [
           </button>
           <p class="form__hint">* Pflichtfelder. Antwort {site.responseTime}.</p>
         </div>
+        <p class="form__privacy">
+          Mit dem Absenden verarbeiten wir eure Angaben, um eure Anfrage zu beantworten. Mehr dazu in unserer <a class="tlink" href={url("/datenschutz")}>Datenschutzerklärung</a>.
+        </p>
         <p class="form__status" role="status" aria-live="polite" data-form-status></p>
       </form>
     </div>
@@ -413,33 +416,12 @@ const pakete = [
   .field--area {
     margin-top: 0.5rem;
   }
-  .check {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 0.25rem 0.85rem;
-    margin: 1.25rem 0 0.5rem;
-    font-size: 0.85rem;
-    color: var(--ink-soft);
-    line-height: 1.55;
-  }
-  .check input {
-    width: 1.35rem;
-    height: 1.35rem;
-    margin: 0.05rem 0 0;
-    accent-color: var(--gold-deep);
-  }
-  .check label {
-    padding-block: 0.15rem;
-  }
-  .check .field__error {
-    grid-column: 2;
-  }
   .form__submit {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 1rem 1.5rem;
-    margin-top: 1rem;
+    margin-top: 1.75rem;
   }
   /* Mobile first: Absende-Button über die volle Breite */
   .form__btn {
@@ -481,6 +463,24 @@ const pakete = [
     margin: 0;
     font-size: 0.78rem;
     color: var(--ink-muted);
+  }
+  .form__privacy {
+    margin: 1.25rem 0 0;
+    font-size: 0.8rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+  .form__demo {
+    margin: 0 0 1.5rem;
+    padding: 0.9rem 1.1rem;
+    border-left: 2px solid var(--gold-deep);
+    background: rgba(187, 151, 88, 0.08);
+    font-size: 0.85rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+  .form__status.is-info {
+    color: var(--ink);
   }
   .form__status {
     margin: 1rem 0 0;

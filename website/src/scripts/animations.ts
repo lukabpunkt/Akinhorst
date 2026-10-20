@@ -311,7 +311,6 @@ if (form) {
     gaeste: () => "Bitte gebt eine Gästezahl zwischen 1 und 150 an.",
     telefon: () => "Bitte prüft die Telefonnummer.",
     paket: () => "Bitte wählt ein Paket – oder „Noch unsicher“.",
-    datenschutz: () => "Bitte bestätigt die Datenschutzerklärung.",
   };
 
   const errEl = (name: string) => {
@@ -324,14 +323,13 @@ if (form) {
       anlass: "f-anlass-err",
       gaeste: "f-gaeste-err",
       paket: "f-paket-err",
-      datenschutz: "f-ds-err",
     };
     return document.getElementById(map[name] || "");
   };
 
   const validateField = (el: HTMLInputElement): boolean => {
     const name = el.name;
-    const box = el.closest(".field, .check, [data-radio-group]");
+    const box = el.closest(".field, [data-radio-group]");
     const valid = el.type === "radio" ? !!form.querySelector(`input[name="${name}"]:checked`) : el.checkValidity();
     const err = errEl(name);
     box?.classList.toggle("is-invalid", !valid);
@@ -367,7 +365,10 @@ if (form) {
     });
   });
 
-  const submitBtn = $("[data-submit]", form);
+  const submitBtn = $<HTMLButtonElement>("[data-submit]", form);
+  // Demo-Build: Button ist ohne JS gesperrt (nichts wird gesendet); mit JS Validierung zeigen, aber nicht absenden
+  const demo = form.hasAttribute("data-demo");
+  if (demo && submitBtn) submitBtn.disabled = false;
   let submitting = false;
   // Zurück-Navigation aus dem bfcache (z. B. von /danke): Ladezustand zurücksetzen
   window.addEventListener("pageshow", (e) => {
@@ -389,12 +390,22 @@ if (form) {
     });
     const status = $("[data-form-status]", form);
     if (firstInvalid) {
-      if (status) status.textContent = "Bitte ergänzt die markierten Felder.";
+      if (status) {
+        status.classList.remove("is-info");
+        status.textContent = "Bitte ergänzt die markierten Felder.";
+      }
       form.classList.remove("shake");
       void form.offsetWidth;
       if (!reduced) form.classList.add("shake");
       (firstInvalid as HTMLElement).focus({ preventScroll: true });
-      scrollToTarget((firstInvalid as HTMLElement).closest(".field, .check, fieldset") as HTMLElement);
+      scrollToTarget((firstInvalid as HTMLElement).closest(".field, fieldset") as HTMLElement);
+      return;
+    }
+    if (demo) {
+      if (status) {
+        status.classList.add("is-info");
+        status.textContent = "Alles richtig ausgefüllt. Das ist eine Demo – die Anfrage wurde nicht gesendet.";
+      }
       return;
     }
     if (status) status.textContent = "";
@@ -517,9 +528,6 @@ function preloaderTimeline(): gsap.core.Timeline {
     root.classList.remove("js-preload");
     pre.remove();
     lenis?.start();
-    try {
-      sessionStorage.setItem("bh-intro", "1");
-    } catch {}
     // Scrollbar ist jetzt wieder da → Layoutbreite kann sich geändert haben
     requestAnimationFrame(() => ScrollTrigger.refresh());
   };

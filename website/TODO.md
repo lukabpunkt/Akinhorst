@@ -32,6 +32,7 @@ Alle Stellen sind im Code mit `TODO(INHABER)` markiert. Die meisten Inhalte werd
 
 - [ ] Nach Go-Live auf echtem iPhone (Safari) prüfen: Datumsfeld im Formular, Schriften werden nicht doppelt geladen (Playwright-WebKit lädt vorgeladene Fonts doppelt), Querformat.
 - [ ] Datenschutz Abschnitt 3: Satz „AV-Vertrag … geschlossen“ erst stehen lassen, wenn der Vertrag wirklich abgeschlossen ist.
+- [ ] Datenschutz beim Go-Live: Hosting-Abschnitt an den echten Hoster anpassen (die Demo läuft auf GitHub Pages, der Text nennt Netlify). AV-Vertrag mit Netlify, der die Spam-Prüfung über Akismet abdeckt, abschließen bzw. prüfen. Den Live-Build **ohne** `PUBLIC_DEMO` bauen.
 - [ ] Obergrenze Gästezahl im Formular (aktuell 150) passend zur Zeltkapazität festlegen
 
 ## Bekannte Messwerte (lokal, Lighthouse mobil, simuliertes Slow-4G)
